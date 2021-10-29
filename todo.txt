@@ -1,0 +1,9 @@
+
+
+
+
+
+
+
+
+4-confirm data entered in login page with db data (loginController.php)? welcome.php : alert(wrong data) 

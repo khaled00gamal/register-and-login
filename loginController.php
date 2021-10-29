@@ -1,29 +1,30 @@
 <?php
 session_start();
 include("../config.php");
+
 if(isset($_POST['submit']))
 {
- mysqli_connect('localhost','root','') or die(mysqli_error($connect));
- mysqli_select_db($connect,'registeration') or die(mysqli_error($connect));
  $email=$_POST['enteredEmail'];
- $password=$_POST['enteredPassword'];
- if($email!=''&&$password!='')
- {
-   $query="SELECT * FROM user_entry where email='$email' and password='$password'" ;
-   $res=mysqli_query($connection,$query);
+ $pass=$_POST['enteredPassword'];
+ $hash=md5($pass);
+
+ $query="SELECT * FROM user_entry where (email='$email' and pass='$hash')" ;
+ $res=mysqli_query($connection,$query);
+   
    if(mysqli_fetch_row($res))
    {
-    $_SESSION['name']=$name;
-    header ("Location: ../views/welcome.php?status=success");
+     $data=mysqli_fetch_assoc($res);//get data row as array
+     if($data['pass']===$hash){
+      echo"dakhalt";
+      $_SESSION['name']=$data['name'];
+      header ("Location: ../views/welcome.php?status=success");
+     }
    }
    else
    {
-    echo'The entered username or password are incorrect';
+     echo "madakhaltesh";
+    $login_err = "Invalid username or password.";
    }
  }
- else
- {
-  echo'Enter both username and password';
- }
-}
+ 
 ?>
