@@ -2,16 +2,14 @@
 session_start();
 include("../config.php");
 
-if(isset($_POST['submit']))
-{
  $email=$_POST['enteredEmail'];
  $pass=$_POST['enteredPassword'];
  $hash=md5($pass);
 
  $query="SELECT * FROM user_entry where (email='$email' and pass='$hash')" ;
- $res=mysqli_query($connection,$query);
+ $res=mysqli_query($connect,$query);
    
-   if(mysqli_fetch_row($res))
+   if($res)
    {
      $data=mysqli_fetch_assoc($res);//get data row as array
      if($data['pass']===$hash){
@@ -25,6 +23,6 @@ if(isset($_POST['submit']))
      echo "madakhaltesh";
     $login_err = "Invalid username or password.";
    }
- }
+ 
  
 ?>
